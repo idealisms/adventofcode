@@ -7,19 +7,17 @@ inp = open(re.match(r"day\d\d", __file__)[0] + 'input.txt').read().strip()
 
 def deliver(inp):
   gifts = set()
-  x, y = 0, 0
-  gifts.add((x, y))
+  pt = 0j
+  gifts.add(pt)
   move = {
-    '<': (-1, 0),
-    '>': (1, 0),
-    '^': (0, 1),
-    'v': (0, -1),
+    '<': -1,
+    '>': 1,
+    '^': 1j,
+    'v': -1j,
   }
   for c in inp:
-    dx, dy = move[c]
-    x += dx
-    y += dy
-    gifts.add((x, y))
+    pt += move[c]
+    gifts.add(pt)
   return gifts
 
 print('part1:', len(deliver(inp)))
