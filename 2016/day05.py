@@ -6,13 +6,10 @@ import re
 
 inp = open(re.match(r"day\d\d", __file__)[0] + 'input.txt').read().strip()
 
-hashbase = hashlib.md5(inp.encode('ascii'))
 part1 = ''
 part2 = [None] * 8
 for i in itertools.count(0):
-  hasher = hashbase.copy()
-  hasher.update(str(i).encode('ascii'))
-  h = hasher.hexdigest()
+  h = hashlib.md5(f'{inp}{i}'.encode('ascii')).hexdigest()
   if h.startswith('00000'):
     part1 += h[5]
     if '0' <= h[5] <= '7':
