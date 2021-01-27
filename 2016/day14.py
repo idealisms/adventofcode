@@ -10,7 +10,7 @@ def calc(index):
   return hashlib.md5(f'{salt}{index}'.encode('ascii')).hexdigest()
 
 def calc2016(index):
-  h = hashlib.md5(f'{salt}{index}'.encode('ascii')).hexdigest()
+  h = calc(index)
   for _ in range(2016):
     h = hashlib.md5(h.encode('ascii')).hexdigest()
   return h
