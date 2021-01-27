@@ -16,6 +16,7 @@ def at(x, y):
     return mem[key]
 
   n = (x*x + 3*x + 2*x*y + y + y*y) + fav_number
+  # binary representation without the 0b prefix.
   ones = bin(n)[2:].count('1')
   result = '.' if ones % 2 == 0 else '#'
   mem[key] = result
