@@ -18,10 +18,15 @@ while len(deque) > 1:
 print('part1:', deque.popleft())
 
 class Buckets(object):
-  '''Use an array of arrays.
+  '''An array of arrays, starting with sqrt(n) arrays each of size sqrt(n).
 
   - Accessing index i is O(lg n)
+    We skip arrays until we get to the one with our item (up to lg n), then
+    return the item (constant time).
   - Removing at index i is O(lg n)
+    We find the item like above (lg n), then remove it from the array. This
+    causes the array to resize, but that is worst case lg n (the size of
+    the array).
   '''
 
   def __init__(self, num_elves):
