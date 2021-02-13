@@ -32,7 +32,10 @@ print('part1:', ''.join(dance(order)))
 
 # It seems impossible to merge commands because
 # exchange and partner depend on the current state.
-# Instead, hope that the dances hit a cycle.
+# Instead, hope that the dances hit a cycle. I don't
+# think it has to cycle since there are 16!
+# permutations, but otherwise, I'm not sure how this
+# is solveable.
 order = [chr(ord('a') + i) for i in range(16)]
 seen = {}
 for i in itertools.count(1):
