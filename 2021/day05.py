@@ -20,65 +20,57 @@ points = []
 for line in inp.splitlines():
     points.append([int(n) for n in line.replace('-> ', '').replace(',', ' ').split()])
 
-cols = list(zip(*points))
-max_x = max(cols[0] + cols[2])
-max_y = max(cols[1] + cols[3])
-print(max_x, max_y)
+board = collections.defaultdict(int)
 
-board = [[0] * 1000 for _ in range(1000)]
+Point = collections.namedtuple('Point', ['x', 'y'])
 
-for point_pair in points:
-    if point_pair[0] == point_pair[2]:
-        a = min(point_pair[1], point_pair[3])
-        b = max(point_pair[1], point_pair[3])
+starts = [Point(p[0], p[1]) for p in points]
+ends = [Point(p[2], p[3]) for p in points]
+
+for start, end in zip(starts, ends):
+    if start.x == end.x:
+        a = min(start.y, end.y)
+        b = max(start.y, end.y)
         for n in range(a, b+1):
-            board[point_pair[0]][n] += 1
-    elif point_pair[1] == point_pair[3]:
-        a = min(point_pair[0], point_pair[2])
-        b = max(point_pair[0], point_pair[2])
+            pt = (start.x, n)
+            board[pt] += 1
+    elif start.y == end.y:
+        a = min(start.x, end.x)
+        b = max(start.x, end.x)
         for n in range(a, b+1):
-            board[n][point_pair[1]] += 1
+            pt = (n, start.y)
+            board[pt] += 1
 
-part1 = 0
-for row in board:
-    for n in row:
-        if n > 1:
-            part1 += 1
+part1 = sum(1 if n > 1 else 0 for n in board.values())
 print(part1)
 
-board = [[0] * 1000 for _ in range(1000)]
-# board = [[0] * 10 for _ in range(10)]
+board = collections.defaultdict(int)
 
-for point_pair in points:
-    if point_pair[0] == point_pair[2]:
-        a = min(point_pair[1], point_pair[3])
-        b = max(point_pair[1], point_pair[3])
+for start, end in zip(starts, ends):
+    if start.x == end.x:
+        a = min(start.y, end.y)
+        b = max(start.y, end.y)
         for n in range(a, b+1):
-            board[point_pair[0]][n] += 1
-    elif point_pair[1] == point_pair[3]:
-        a = min(point_pair[0], point_pair[2])
-        b = max(point_pair[0], point_pair[2])
+            pt = (start.x, n)
+            board[pt] += 1
+    elif start.y == end.y:
+        a = min(start.x, end.x)
+        b = max(start.x, end.x)
         for n in range(a, b+1):
-            board[n][point_pair[1]] += 1
+            pt = (n, start.y)
+            board[pt] += 1
     else:
         x_range = y_range = None
-        if point_pair[1] < point_pair[3]:
-            x_range = range(point_pair[1], point_pair[3]+1)
+        if start.x < end.x:
+            x_range = range(start.x, end.x+1)
         else:
-            x_range = range(point_pair[1], point_pair[3]-1, -1)
-        if point_pair[0] < point_pair[2]:
-            y_range = range(point_pair[0], point_pair[2]+1)
+            x_range = range(start.x, end.x-1, -1)
+        if start.y < end.y:
+            y_range = range(start.y, end.y+1)
         else:
-            y_range = range(point_pair[0], point_pair[2]-1, -1)
-        x_range = list(x_range)
-        y_range = list(y_range)
-        for x, y in zip(x_range, y_range):
-            board[y][x] += 1
+            y_range = range(start.y, end.y-1, -1)
+        for pt in zip(x_range, y_range):
+            board[pt] += 1
 
-part2 = 0
-for row in board:
-    # print(row)
-    for n in row:
-        if n > 1:
-            part2 += 1
+part2 = sum(1 if n > 1 else 0 for n in board.values())
 print(part2)
