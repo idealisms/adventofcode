@@ -38,5 +38,4 @@ for r in range(1, rows + 1):
     for c in range(1, cols + 1):
         if grid[r][c] != '9':
             sizes.append(fill(grid, r, c))
-sizes.sort()
-print(sizes[-3] * sizes[-2] * sizes[-1])
+print(math.prod(sorted(sizes)[-3:]))
