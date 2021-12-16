@@ -5,10 +5,6 @@ import re
 
 inp = open(re.search(r"day\d\d", __file__)[0] + 'input.txt').read().strip()
 
-# inp = 'D2FE28'
-# inp = '8A004A801A8002F478'
-# inp = '38006F45291200'
-
 binary = bin(int(inp, 16))[2:]
 zero_pad = len(binary) % 4
 if zero_pad:
