@@ -97,6 +97,10 @@ def part1():
 
     print(len(on))
 
+# 564654
+part1()
+
+
 def linear_intersection(range1, range2):
     (min1, max1), (min2, max2) = range1, range2
     if min2 <= min1 < max2:
@@ -108,10 +112,12 @@ def linear_intersection(range1, range2):
     if min1 < max2 <= max1:
         return max(min1, min2), max2
 
-def cubeson(on, xrange, yrange, zrange):
-    print('on', len(on), xrange, yrange, zrange)
+
+def cubeson(on, xrange, yrange, zrange, turn_on):
+    # print('on', len(on), xrange, yrange, zrange)
     if not on:
-        on.add((xrange, yrange, zrange))
+        if turn_on:
+            on.add((xrange, yrange, zrange))
         return on
 
     new_on = set()
@@ -132,29 +138,9 @@ def cubeson(on, xrange, yrange, zrange):
             new_on.update(new_cubes)
         else:
             new_on.add(cube)
-        new_on.add((xrange, yrange, zrange))
-    return new_on
 
-def cubesoff(on, xrange, yrange, zrange):
-    print('off', len(on), xrange, yrange, zrange)
-    new_on = set()
-    for cube in on:
-        xint = linear_intersection(xrange, cube[0])
-        yint = linear_intersection(yrange, cube[1])
-        zint = linear_intersection(zrange, cube[2])
-        if xint and yint and zint:
-            xs = sorted(list(set([cube[0][0], cube[0][1], xint[0], xint[1]])))
-            ys = sorted(list(set([cube[1][0], cube[1][1], yint[0], yint[1]])))
-            zs = sorted(list(set([cube[2][0], cube[2][1], zint[0], zint[1]])))
-            new_cubes = set()
-            for xmin, xmax in zip(xs, xs[1:]):
-                for ymin, ymax in zip(ys, ys[1:]):
-                    for zmin, zmax in zip(zs, zs[1:]):
-                        new_cubes.add(((xmin, xmax), (ymin, ymax), (zmin, zmax)))
-            new_cubes.remove((xint, yint, zint))
-            new_on.update(new_cubes)
-        else:
-            new_on.add(cube)
+        if turn_on:
+            new_on.add((xrange, yrange, zrange))
     return new_on
 
 
@@ -165,9 +151,7 @@ for cmd in cmds:
     xrange = (xrange[0], xrange[1] + 1)
     yrange = (yrange[0], yrange[1] + 1)
     zrange = (zrange[0], zrange[1] + 1)
-    if turn_on:
-        on = cubeson(on, xrange, yrange, zrange)
-    else:
-        on = cubesoff(on, xrange, yrange, zrange)
+    on = cubeson(on, xrange, yrange, zrange, turn_on)
 
+# 1214193181891104
 print(sum((x[1] - x[0]) * (y[1] - y[0]) * (z[1] - z[0]) for x, y, z in on))
