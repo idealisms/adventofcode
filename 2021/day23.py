@@ -3,37 +3,38 @@ import itertools
 import math
 import re
 
-goal = {
+ROOMS = {
     'A': 2,
     'B': 4,
     'C': 6,
     'D': 8,
 }
-goalSpaces = set(goal.values())
-moveCosts = {
+ROOM_POSITIONS = set(ROOMS.values())
+MOVE_COSTS = {
     'A': 1,
     'B': 10,
     'C': 100,
     'D': 1000,
 }
 
-
-def canReach(board, pos, dest):
-    a = min(pos, dest)
-    b = max(pos, dest)
-    for i in range(a, b+1):
-        if i == pos:
+def canReach(board, start_pos, end_pos):
+    '''Checks for any piece blocking the path from
+    start_pos to end_pos.'''
+    a = min(start_pos, end_pos)
+    b = max(start_pos, end_pos)
+    for pos in range(a, b+1):
+        if pos == start_pos:
             continue
-        if i in goalSpaces:
+        if pos in ROOM_POSITIONS:
             continue
-        if board[i] != '.':
-            # print(' ', i, board[i][0], 'cannot reach')
+        if board[pos] != '.':
             return False
     return True
 
 
-def roomOnlyContainsGoal(board, piece, dest):
-    inRoom = board[dest]
+def roomOnlyContainsGoal(board, piece, dest_pos):
+    assert dest_pos in ROOM_POSITIONS
+    inRoom = board[dest_pos]
     return len(inRoom) == inRoom.count('.') + inRoom.count(piece) 
 
 
@@ -46,22 +47,22 @@ def getPieceFromRoom(room):
 def possibleMoves(board, pos):
     piece = board[pos]
     # print(board, pos, piece)
-    if pos not in goalSpaces:
-        if canReach(board, pos, goal[piece]) and roomOnlyContainsGoal(board, piece, goal[piece]):
-            return [goal[piece]]
+    if pos not in ROOM_POSITIONS:
+        if canReach(board, pos, ROOMS[piece]) and roomOnlyContainsGoal(board, piece, ROOMS[piece]):
+            return [ROOMS[piece]]
         return []
 
     movingLetter = getPieceFromRoom(piece)
-    if pos == goal[movingLetter] and roomOnlyContainsGoal(board, movingLetter, pos):
+    if pos == ROOMS[movingLetter] and roomOnlyContainsGoal(board, movingLetter, pos):
         return []
 
     possible = []
     for dest in range(len(board)):
         if dest == pos:
             continue
-        if dest in goalSpaces and goal[movingLetter] != dest:
+        if dest in ROOM_POSITIONS and ROOMS[movingLetter] != dest:
             continue
-        if goal[movingLetter] == dest:
+        if ROOMS[movingLetter] == dest:
             if not roomOnlyContainsGoal(board, movingLetter, dest):
                 continue
         if canReach(board, pos, dest):
@@ -102,11 +103,11 @@ def move(board, pos, dest):
 
     if len(board[dest]) == 1:
         new_board[dest] = movingLetter
-        return new_board, dist * moveCosts[movingLetter]
+        return new_board, dist * MOVE_COSTS[movingLetter]
     else:
         new_board[dest], addl_dist = addToRoom(movingLetter, board[dest])
         dist += addl_dist
-        return new_board, dist * moveCosts[movingLetter]
+        return new_board, dist * MOVE_COSTS[movingLetter]
 
 
 def solve(board):
