@@ -10,7 +10,8 @@ def main(year, day):
   request = urllib.request.Request(
     f'https://adventofcode.com/{year}/day/{day}/input',
     headers={
-      'cookie': f'session={open("SESSION_COOKIE").read().strip()}'
+      'cookie': f'session={open("SESSION_COOKIE").read().strip()}',
+      'User-Agent': 'https://github.com/idealisms/adventofcode/blob/main/get_input.py by idealisms/tony chang',
     },
   )
   inp = urllib.request.urlopen(request).read()
