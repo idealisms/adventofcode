@@ -7,9 +7,7 @@ inp = open(re.search(r"day\d\d", __file__)[0] + 'input.txt').read().strip()
 
 part1 = part2 = 0
 for line in inp.splitlines():
-    a, b = line.split(',')
-    a1, a2 = map(int, a.split('-'))
-    b1, b2 = map(int, b.split('-'))
+    a1, a2, b1, b2 = map(int, re.findall('\d+', line))
     if a1 >= b1 and a2 <= b2:
         part1 += 1
     elif b1 >= a1 and b2 <= a2:
