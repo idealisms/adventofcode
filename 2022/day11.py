@@ -68,9 +68,7 @@ monkeys = []
 for input_lines in inp.split('\n\n'):
     monkey = parse(input_lines.split('\n'))
     monkeys.append(monkey)
-lcm = 1
-for monkey in monkeys:
-    lcm *= monkey.test
+lcm = math.prod(monkey.test for monkey in monkeys)
 inspected = [0] * len(monkeys)
 for _ in range(10000):
     for i, monkey in enumerate(monkeys):
