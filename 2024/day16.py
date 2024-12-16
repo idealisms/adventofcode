@@ -34,15 +34,9 @@ for r in range(R):
         elif grid[r][c] == 'E':
             target = (r, c)
         if grid[r][c] in '.SE':
-            graph[(r, c, N)][r, c, E] = 1000
-            graph[(r, c, E)][r, c, S] = 1000
-            graph[(r, c, S)][r, c, W] = 1000
-            graph[(r, c, W)][r, c, N] = 1000
-
-            graph[(r, c, N)][r, c, W] = 1000
-            graph[(r, c, E)][r, c, N] = 1000
-            graph[(r, c, S)][r, c, E] = 1000
-            graph[(r, c, W)][r, c, S] = 1000
+            for d in range(4):
+                graph[(r, c, d)][r, c, (d + 1) % 4] = 1000
+                graph[(r, c, d)][r, c, (d - 1) % 4] = 1000
 
             if grid[r-1][c] in '.SE':
                 graph[(r, c, N)][(r-1, c, N)] = 1
