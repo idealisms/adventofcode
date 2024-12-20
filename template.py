@@ -1,4 +1,5 @@
 import collections
+import heapq
 import itertools
 import math
 import re
