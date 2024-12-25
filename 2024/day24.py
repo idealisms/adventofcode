@@ -259,3 +259,15 @@ cmds = try_swap(cmds, 'htn', 'sqj')
 # #         error_inputs.add(a)
 # #         error_inputs.add(b)
 # # print(error_inputs)
+
+# x00 XOR y00 -> z00
+#
+# hjp XOR kjs -> z01
+# (x00 AND y00) XOR (x01 XOR y01) -> z01
+# carry XOR x01 XOR y01 -> z01
+#
+# rvm XOR vdq -> z02
+# ((x01 AND y01) OR ((x01 XOR y01) AND (x00 AND y00))) XOR (y02 XOR x02) -> z02
+# carry XOR y02 XOR x02 -> z02
+# We expect this pattern to continue throughout.
+# I just manually examined the rules.
